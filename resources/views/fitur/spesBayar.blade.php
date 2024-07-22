@@ -21,59 +21,37 @@
                                     <span>Rp{{ number_format($spesialis->harga, 0, ',', '.') }}</span>
                                 </div>
                             </div>
+                            <div class="mt-4">
+                                <h3 class="text-lg font-semibold mb-2">Tambahkan Voucher</h3>
+                                <div class="flex space-x-2">
+                                    <input type="text" id="voucherInput" placeholder="Masukkan kode voucher"
+                                        class="flex-grow p-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                    <button id="applyVoucherBtn"
+                                        class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition duration-300">
+                                        Terapkan
+                                    </button>
+                                </div>
+                                <div id="voucherList" class="mt-2 hidden">
+                                    <h4 class="text-sm font-semibold mb-1">Voucher yang Tersedia:</h4>
+                                    <ul class="text-sm text-gray-600">
+                                        @foreach ($vouchers as $voucher)
+                                            <li>{{ $voucher->code }} - {{ $voucher->description }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h3 class="text-lg font-semibold">Total Harga:</h3>
+                                <p id="totalPrice" class="text-xl font-bold">
+                                    Rp{{ number_format($spesialis->harga, 0, ',', '.') }}</p>
+                            </div>
                         </div>
-
-                        <!-- Tambahkan Voucher -->
-                        {{-- <div class="bg-white p-4 rounded-lg border border-gray-200">
-                            <h3 class="text-lg font-semibold mb-2">Tambahkan Voucher</h3>
-                            <form action="{{ route('admin.apply.voucher') }}" method="POST" class="flex space-x-2">
-                                @csrf
-                                <input type="text" name="voucher_code" placeholder="Masukkan kode voucher"
-                                    class="flex-grow px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <button type="submit"
-                                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                    Terapkan
-                                </button>
-                            </form>
-
-                            @if (session('voucher_success'))
-                                <div class="mt-2 text-green-600">
-                                    {{ session('voucher_success') }}
-                                </div>
-                            @endif
-
-                            @if (session('voucher_error'))
-                                <div class="mt-2 text-red-600">
-                                    {{ session('voucher_error') }}
-                                </div>
-                            @endif
-                        </div> --}}
 
                         <!-- Kolom Kanan: Metode Pembayaran -->
                         <div class="md:w-1/3">
                             <h3 class="text-lg font-semibold mb-4">Metode pembayaran</h3>
                             <div class="space-y-3">
-                                <div class="flex items-center space-x-3 bg-gray-100 p-3 rounded">
-                                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#00457C">
-                                        <path
-                                            d="M20.067 8.478c.492.315.844.847.844 1.478v4.044c0 .631-.352 1.163-.844 1.478-1.182.735-4.068 2.522-4.068 2.522-.825.512-1.831-.546-1.831-1.478V14.5c0-.631-.352-1.163-.844-1.478-1.182-.735-4.068-2.522-4.068-2.522-.825-.512-1.831.546-1.831 1.478v1.522c0 .631-.352 1.163-.844 1.478-1.182.735-4.068 2.522-4.068 2.522-.825.512-1.831-.546-1.831-1.478V9.956c0-.631.352-1.163.844-1.478 1.182-.735 4.068-2.522 4.068-2.522.825-.512 1.831.546 1.831 1.478V9c0 .631.352 1.163.844 1.478 1.182.735 4.068 2.522 4.068 2.522.825.512 1.831-.546 1.831-1.478V9.956c0-.631.352-1.163.844-1.478 1.182-.735 4.068-2.522 4.068-2.522.825-.512 1.831.546 1.831 1.478v1.566z" />
-                                    </svg>
-                                    <span>Via PayPal</span>
-                                </div>
-                                <div class="flex items-center space-x-3 bg-gray-100 p-3 rounded">
-                                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#1A1F71">
-                                        <path
-                                            d="M15.265 2.425L13.5 11.55h-2.65l1.765-9.125h2.65zm6.704 6.04l-1.235 1.235 1.235 1.235-1.235 1.235 1.235 1.235-1.235 1.235.26.26c-.635.76-1.56 1.235-2.6 1.235H16.5l-1.265 6.545h-2.65l1.265-6.545h-2.65l-1.265 6.545H7.265l1.265-6.545H6.5c-1.04 0-1.965-.475-2.6-1.235l.26-.26-1.235-1.235 1.235-1.235-1.235-1.235 1.235-1.235-1.235-1.235L4.16 8.465h3.275l1.765-9.125h2.65L10.085 8.465h2.65l1.765-9.125h2.65L15.385 8.465h3.275l1.31-1.31 1.235 1.235z" />
-                                    </svg>
-                                    <span>Via Visa</span>
-                                </div>
-                                <div class="flex items-center space-x-3 bg-gray-100 p-3 rounded">
-                                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#0079FF">
-                                        <path
-                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
-                                    </svg>
-                                    <span>Via Dana</span>
-                                </div>
+
                                 <div class="md:w-1/3">
                                     <button id="paymentButton"
                                         class="w-full bg-indigo-600 text-white py-3 px-4 rounded hover:bg-indigo-700 transition duration-300">
@@ -175,6 +153,90 @@
     @include('layouts.footer')
 
     <script>
+        //New
+        document.addEventListener('DOMContentLoaded', function() {
+            const applyVoucherBtn = document.getElementById('applyVoucherBtn');
+            const voucherInput = document.getElementById('voucherInput');
+            const voucherList = document.getElementById('voucherList');
+            const totalPriceElement = document.getElementById('totalPrice');
+            const originalPrice = parseFloat(totalPriceElement.textContent.replace('Rp', '').replace('.', ''));
+
+            applyVoucherBtn.addEventListener('click', function() {
+                const enteredCode = voucherInput.value.trim().toUpperCase();
+
+                // Cek voucher yang tersedia
+                const voucherItems = voucherList.querySelectorAll('li');
+                let foundMatch = false;
+
+                voucherItems.forEach(item => {
+                    const itemCode = item.textContent.split(' - ')[0].trim().toUpperCase();
+                    if (itemCode.includes(enteredCode)) {
+                        item.style.display = 'block';
+                        foundMatch = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                if (foundMatch) {
+                    voucherList.classList.remove('hidden');
+                } else {
+                    voucherList.classList.add('hidden');
+                }
+
+                // Terapkan voucher
+                fetch(`/spesialis/{{ $spesialis->id }}/apply-voucher`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            voucher_code: enteredCode
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            totalPriceElement.textContent =
+                                `Rp${number_format(data.discountedPrice, 0, ',', '.')}`;
+                            alert(data.message);
+                        } else {
+                            totalPriceElement.textContent =
+                                `Rp${number_format(originalPrice, 0, ',', '.')}`;
+                            alert(data.message || 'Voucher tidak valid.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat menerapkan voucher.');
+                    });
+            });
+
+            // Fungsi untuk memformat angka
+            function number_format(number, decimals, dec_point, thousands_sep) {
+                number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+                var n = !isFinite(+number) ? 0 : +number,
+                    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                    s = '',
+                    toFixedFix = function(n, prec) {
+                        var k = Math.pow(10, prec);
+                        return '' + Math.round(n * k) / k;
+                    };
+                s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+                if (s[0].length > 3) {
+                    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+                }
+                if ((s[1] || '').length < prec) {
+                    s[1] = s[1] || '';
+                    s[1] += new Array(prec - s[1].length + 1).join('0');
+                }
+                return s.join(dec);
+            }
+        });
+
         // Fungsi untuk menyimpan pembayaran
         function savePayment(payment) {
             let payments = JSON.parse(localStorage.getItem('payments') || '[]');

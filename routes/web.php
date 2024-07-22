@@ -95,6 +95,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('fitur.spesBayar');
     });
     Route::get('/spesialis/{id_spesialis}/whatsapp', [SpesialisController::class, 'getWhatsAppNumber'])->name('spesialis.whatsapp');
+    Route::post('/spesialis/{id_spesialis}/apply-voucher', [SpesialisController::class, 'applyVoucher'])->name('spesialis.applyVoucher');
 
     //yoga
     Route::get('/yoga', [YogaController::class, 'index'])->name('yoga.index');

@@ -83,44 +83,18 @@
                     </div>
                     <div class="mt-4 md:mt-0 md:ml-8 text-center md:text-right">
                         <p class="text-gray-800 text-xl font-semibold mb-3">
-                            Rp.{{ number_format($spesialis->harga, 0, ',', '.') }}</p>
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded text-base">
+                            Rp.{{ number_format($spesialis->harga, 0, ',', '.') }}
+                        </p>
+                        <a href="{{ route('spesialis.bayar', ['id_spesialis' => $spesialis->id_spesialis]) }}"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded text-base inline-block">
                             Bayar
-                        </button>
+                        </a>
                     </div>
                 </div>
             @endforeach
         </div>
-        {{-- <div class="bg-white rounded-lg shadow-2xl p-8 flex-1">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                @foreach ($spesFilter as $spesialis)
-                    <div class="flex items-center border rounded-lg p-5">
-                        <div class="w-16 h-16 rounded-full bg-gray-200 mr-6 overflow-hidden">
-                            <img src="https://picsum.photos/id/237/200/200" alt="Profile Picture"
-                                class="w-full h-full object-cover">
-                        </div>
-                        <div class="flex-grow">
-                            <h2 class="text-xl font-bold mb-1">{{ $spesialis->nama }}</h2>
-                            <p class="text-gray-600 text-xl">{{ $spesialis->Anatomy }}</p>
-                            <p class="text-gray-600 text-m font-bold">{{ $spesialis->spesialisasi }}</p>
-                            <p class="text-gray-600 text-xs">{{ $spesialis->tempatTugas }}</p>
-                            <p class="text-gray-600 text-xs">{{ $spesialis->alamat }}</p>
-                        </div>
-                        <div class="ml-4 text-right">
-                            <p class="text-gray-800 text-lg font-semibold">
-                                Rp.{{ number_format($spesialis->harga, 0, ',', '.') }}</p>
-                            <button
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm mt-2 block">Make
-                                Appointment</button>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div> --}}
-
     </div>
     <hr class="w-full border-gray-300 mb-6" />
-    </div>
     </div>
 
     @include('layouts.footer')

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\spesialis;
 use Illuminate\Http\Request;
+use App\Models\Voucher;
 
 class SpesialisController extends Controller
 {
@@ -15,7 +16,31 @@ class SpesialisController extends Controller
     public function bayar($id_spesialis)
     {
         $spesialis = Spesialis::findOrFail($id_spesialis);
-        return view('fitur.spesBayar', compact('spesialis'));
+        $vouchers = Voucher::all(); // Atau gunakan query yang lebih spesifik jika diperlukan
+        return view('fitur.spesBayar', compact('spesialis', 'vouchers'));
+    }
+
+    public function applyVoucher(Request $request, $id_spesialis)
+    {
+        $spesialis = Spesialis::findOrFail($id_spesialis);
+        $voucherCode = $request->input('voucher_code');
+
+        $voucher = Voucher::where('code', $voucherCode)->first();
+
+        if ($voucher) {
+            $discountedPrice = $spesialis->harga - ($spesialis->harga * ($voucher->discount / 100));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Voucher berhasil diterapkan',
+                'discountedPrice' => $discountedPrice
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Voucher tidak valid'
+            ]);
+        }
     }
     public function showSpes(Request $request)
     {
